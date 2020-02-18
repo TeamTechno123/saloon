@@ -24,55 +24,57 @@
               <div class="card-header">
                 <h3 class="card-title">Add Product / Service </h3>
               </div>
-              <!-- /.card-header -->
-              <!-- form start -->
               <form class="m-0 input_form" id="form_action" role="form" action="" method="post">
                 <div class="card-body row">
                   <div class="col-md-12 ">
                     <div class="row">
-
                       <div class="form-group col-md-12 select_sm">
                         <label>Select Type</label>
-                        <select class="form-control select2" name="item_group_id" id="item_group_id" data-placeholder="Select Account Group" required>
+                        <select class="form-control form-control-sm select2" name="product_type" id="product_type" data-placeholder="Select Type">
                           <option value="">Select Type</option>
+                          <option <?php if(isset($product_info['product_type']) && $product_info['product_type'] == 'Service' ){ echo 'selected'; } ?>>Service</option>
+                          <option <?php if(isset($product_info['product_type']) && $product_info['product_type'] == 'Product' ){ echo 'selected'; } ?>>Product</option>
                         </select>
                       </div>
-
                       <div class="form-group col-md-12">
                         <label>Product / Service Name</label>
-                        <input type="text" class="form-control form-control-sm" name="customer_company" id="customer_company" value="<?php if(isset($customer_company)){ echo $customer_company; } ?>" placeholder="" required>
+                        <input type="text" class="form-control form-control-sm" name="product_name" id="product_name" value="<?php if(isset($product_info['product_name'])){ echo $product_info['product_name']; } ?>" placeholder="" required>
                       </div>
-
                       <div class="form-group col-md-6">
                         <label>Quantity</label>
-                        <input type="text" class="form-control form-control-sm" name="customer_company" id="customer_company" value="<?php if(isset($customer_company)){ echo $customer_company; } ?>" placeholder="" required>
+                        <input type="number" class="form-control form-control-sm" name="product_qty" id="product_qty" value="<?php if(isset($product_info['product_qty'])){ echo $product_info['product_qty']; } ?>" placeholder="" required>
                       </div>
-
                       <div class="form-group col-md-6 select_sm">
                         <label>Select Unit</label>
-                        <select class="form-control select2" name="item_group_id" id="item_group_id" data-placeholder="Select Account Group" required>
+                        <select class="form-control select2 form-control-sm" name="product_unit" id="product_unit" data-placeholder="Select Unit">
                           <option value="">Select Unit</option>
                         </select>
                       </div>
-
                       <div class="form-group col-md-6">
                         <label>Rate</label>
-                        <input type="text" class="form-control form-control-sm" name="customer_company" id="customer_company" value="<?php if(isset($customer_company)){ echo $customer_company; } ?>" placeholder="" required>
+                        <input type="number" class="form-control form-control-sm" name="product_rate" id="product_rate" value="<?php if(isset($product_info['product_rate'])){ echo $product_info['product_rate']; } ?>" placeholder="" required>
                       </div>
-
-                      <div class="form-group col-md-12">
-                        <label>Package Price</label>
-                        <input type="text" class="form-control form-control-sm" name="customer_company" id="customer_company" value="<?php if(isset($customer_company)){ echo $customer_company; } ?>" placeholder="" required>
+                      <div class="form-group col-md-6">
+                        <label>Home Service Charge</label>
+                        <input type="number" class="form-control form-control-sm" name="home_service_charge" id="home_service_charge" value="<?php if(isset($product_info['home_service_charge'])){ echo $product_info['home_service_charge']; } ?>" placeholder="" required>
                       </div>
-                </div>
-                <div class="card-footer row">
-                  <div class="col-md-6">
-                    <div class="custom-control custom-checkbox ml-2">
-                      <input class="custom-control-input" type="checkbox" name="customer_status" id="customer_status" value="1" checked>
-                      <label for="customer_status" class="custom-control-label">Active</label>
                     </div>
                   </div>
-                  <div class="col-md-6 text-right">
+                </div>
+                <div class="card-footer row m-0">
+                  <div class="col-md-2">
+                    <div class="custom-control custom-radio">
+                      <input class="custom-control-input" type="radio" id="product_status1" name="product_status" value="1" <?php if(isset($package_info['product_status']) && $package_info['product_status'] == '1'){ echo 'checked'; } elseif (!isset($package_info['product_status'])) { echo 'checked'; } ?>>
+                      <label for="product_status1" class="custom-control-label">Active</label>
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="custom-control custom-radio">
+                      <input class="custom-control-input" type="radio" id="product_status0" name="product_status" value="0" <?php if(isset($package_info['product_status']) && $package_info['product_status'] == '0'){ echo 'checked'; }  ?>>
+                      <label for="product_status0" class="custom-control-label">Inactive</label>
+                    </div>
+                  </div>
+                  <div class="col-md-8 text-right">
                     <?php if(isset($update)){ ?>
                       <button id="btn_update" type="submit" class="btn btn-primary">Update </button>
                     <?php } else{ ?>
@@ -82,11 +84,6 @@
                   </div>
                 </div>
               </form>
-            </div>
-          </div>
-          <!--/.col (left) -->
-          <!-- right column -->
-          <!--/.col (right) -->
         </div>
         <!-- /.row -->
       </div><!-- /.container-fluid -->

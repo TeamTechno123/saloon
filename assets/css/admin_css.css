@@ -5,6 +5,21 @@
   margin-bottom: 1px !important;
 }
 
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance:textfield;
+}
+
+/* Select - select2 */
+
 .select_sm .select2-container--default .select2-selection--single {
     background-color: #fff;
     border: 1px solid #ced4da !important;
@@ -25,6 +40,36 @@
     font-size: .875rem;
 }
 
+/* Multi-Select */
+.select_sm .select2-container--default.select2-container--focus .select2-selection--multiple {
+    border: 1px solid #ced4da !important;
+    outline: 0;
+}
+
+.select_sm .select2-container--default .select2-selection--multiple .select2-selection__rendered .select2-search.select2-search--inline .select2-search__field {
+    border: 0;
+    margin-top: 3px !important;
+}
+
+.select_sm .select2-container--default .select2-selection--multiple {
+    background-color: white;
+    border: 1px solid #ced4da !important;
+    border-radius: 4px;
+    cursor: text;
+    font-size: .875rem !important;
+}
+
+.select_sm .select2-container--default .select2-selection--multiple .select2-selection__choice {
+    background-color: #007bff !important;
+    border-color: #006fe6 !important;
+    border-radius: 4px;
+    cursor: default;
+    float: left;
+    margin-right: 5px;
+    margin-top: 3px !important;
+    padding: 0 5px;
+}
+
 .div_left{
   border: 1px solid rgba(34,36,38,.15) !important;
   border-right: none !important;
@@ -39,11 +84,20 @@
 .wt_50{
   width: 50px !important;
 }
+.wt_75{
+  width: 75px !important;
+}
 .wt_100{
   width: 100px !important;
 }
 .wt_150{
   width: 150px !important;
+}
+.wt_200{
+  width: 200px !important;
+}
+.wt_250{
+  width: 250px !important;
 }
 
 /* Table */

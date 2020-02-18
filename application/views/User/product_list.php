@@ -36,24 +36,30 @@
                   <th class="wt_50">#</th>
                   <th>Product Name</th>
                   <th>Product Price</th>
+                  <th class="wt_50">Status</th>
                   <th class="wt_50">Action</th>
                 </tr>
                 </thead>
                 <tbody>
-                  <!-- <?php $i = 0;
-                  foreach ($user_list as $list) {
+                  <?php $i = 0;
+                  foreach ($product_list as $list) {
                     $i++; ?>
                   <tr>
                     <td><?php echo $i; ?></td>
-                    <td><?php echo $list->user_name ?></td>
-                    <td><?php echo $list->user_city ?></td>
-                    <td><?php echo $list->user_mobile ?></td>
-                    <td><?php echo $list->user_email ?></td>
+                    <td><?php echo $list->product_name ?></td>
+                    <td><?php echo $list->product_rate ?></td>
                     <td>
-                      <a href="<?php echo base_url(); ?>User/edit_user/<?php echo $list->user_id; ?>"> <i class="fa fa-edit"></i> </a>
-                      <a href="<?php echo base_url(); ?>User/delete_user/<?php echo $list->user_id; ?>" onclick="return confirm('Delete this User');" class="ml-4"> <i class="fa fa-trash"></i> </a>
+                      <?php if($list->product_status == 1){
+                      echo "<span class='text-success'>Active</span>";
+                      } else{
+                        echo "<span class='text-danger'>Inactive</span>";
+                      } ?>
                     </td>
-                  <?php } ?> -->
+                    <td>
+                      <a href="<?php echo base_url(); ?>User/edit_product/<?php echo $list->product_id; ?>"> <i class="fa fa-edit"></i> </a>
+                      <a href="<?php echo base_url(); ?>User/delete_product/<?php echo $list->product_id; ?>" onclick="return confirm('Delete this Product/Service');" class="ml-2 text-danger"> <i class="fa fa-trash"></i> </a>
+                    </td>
+                  <?php } ?>
                   </tr>
                 </tbody>
               </table>

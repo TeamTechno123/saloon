@@ -147,6 +147,23 @@ class User_Model extends CI_Model{
     return $result;
   }
 
+  public function get_count_no($company_id,$field_name, $tbl_name){
+    $this->db->select('MAX('.$field_name.') as num');
+    if($company_id != ''){
+      $this->db->where('company_id', $company_id);
+    }
+    $this->db->from($tbl_name);
+    $query = $this->db->get();
+    $result =  $query->result_array();
+    if($result){
+      $old_num = $result[0]['num'];
+    } else{
+      $old_num = 0;
+    }
+    $value = $old_num + 1;               
+    return $value;
+  }
+
   // function check_otp($otp, $user_id){
   //   $query = $this->db->select('*')
   //       ->where('user_otp', $otp)

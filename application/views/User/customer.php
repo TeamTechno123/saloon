@@ -32,66 +32,69 @@
                     <div class="row">
                       <div class="form-group col-md-12">
                         <label>Customer Name</label>
-                        <input type="text" class="form-control form-control-sm" name="customer_company" id="customer_company" value="<?php if(isset($customer_company)){ echo $customer_company; } ?>" placeholder="" required>
+                        <input type="text" class="form-control form-control-sm" name="customer_name" id="customer_name" value="<?php if(isset($customer_info['customer_name'])){ echo $customer_info['customer_name']; } ?>" placeholder="" required>
                       </div>
                       <div class="form-group col-md-12">
                         <label>Customer Address</label>
-                      <textarea name="name" class="form-control" rows="3" cols="90"></textarea>
-                    </div>
-
-                      <div class="form-group col-md-6">
-                        <label>Mobile No. 1</label>
-                        <input type="text" class="form-control form-control-sm" name="customer_gstin" id="customer_gstin" value="<?php if(isset($customer_gstin)){ echo $customer_gstin; } ?>" placeholder="" required>
+                        <textarea name="customer_addr" id="customer_addr" class="form-control" rows="3" cols="90" required><?php if(isset($customer_info['customer_addr'])){ echo $customer_info['customer_addr']; } ?></textarea>
                       </div>
                       <div class="form-group col-md-6">
                         <label>Mobile No. 1</label>
-                        <input type="text" class="form-control form-control-sm" name="customer_pan" id="customer_pan" value="<?php if(isset($customer_pan)){ echo $customer_pan; } ?>" placeholder="" required>
+                        <input type="number" class="form-control form-control-sm" name="customer_mob1" id="customer_mob1" value="<?php if(isset($customer_info['customer_mob1'])){ echo $customer_info['customer_mob1']; } ?>" placeholder="" required>
                       </div>
-
+                      <div class="form-group col-md-6">
+                        <label>Mobile No. 2</label>
+                        <input type="number" class="form-control form-control-sm" name="customer_mob2" id="customer_mob2" value="<?php if(isset($customer_info['customer_mob2'])){ echo $customer_info['customer_mob2']; } ?>" placeholder="" >
+                      </div>
                       <div class="form-group col-md-6">
                         <label>Email</label>
-                        <input type="text" class="form-control form-control-sm" name="customer_gstin" id="customer_gstin" value="<?php if(isset($customer_gstin)){ echo $customer_gstin; } ?>" placeholder="" required>
+                        <input type="email" class="form-control form-control-sm" name="customer_email" id="customer_email" value="<?php if(isset($customer_info['customer_email'])){ echo $customer_info['customer_email']; } ?>" placeholder="" >
                       </div>
                       <div class="form-group col-md-6">
                         <label>Website</label>
-                        <input type="text" class="form-control form-control-sm" name="customer_pan" id="customer_pan" value="<?php if(isset($customer_pan)){ echo $customer_pan; } ?>" placeholder="" required>
+                        <input type="text" class="form-control form-control-sm" name="customer_website" id="customer_website" value="<?php if(isset($customer_info['customer_website'])){ echo $customer_info['customer_website']; } ?>" placeholder="" >
                       </div>
-
                       <div class="form-group col-md-6">
                         <label>Birthdate</label>
-                        <input type="text" class="form-control form-control-sm" name="customer_gstin" id="customer_gstin" value="<?php if(isset($customer_gstin)){ echo $customer_gstin; } ?>" placeholder="" required>
+                        <input type="text" class="form-control form-control-sm" name="customer_birthdate" id="date1" data-target="#date1" data-toggle="datetimepicker" value="<?php if(isset($customer_info['customer_birthdate'])){ echo $customer_info['customer_birthdate']; } ?>" placeholder="">
                       </div>
                       <div class="form-group col-md-6">
                         <label>Anniversary date</label>
-                        <input type="text" class="form-control form-control-sm" name="customer_pan" id="customer_pan" value="<?php if(isset($customer_pan)){ echo $customer_pan; } ?>" placeholder="" required>
+                        <input type="text" class="form-control form-control-sm" name="customer_anv_date" id="date2" data-target="#date2" data-toggle="datetimepicker" value="<?php if(isset($customer_info['customer_anv_date'])){ echo $customer_info['customer_anv_date']; } ?>" placeholder="" >
                       </div>
-
                       <div class="form-group col-md-2 mb-0">
-                          <label for="">Gender : </label>
+                        <label for="">Gender : </label>
+                      </div>
+                      <div class="form-group col-md-2 mb-0">
+                        <div class="form-check">
+                          <input class="form-check-input" value="Male" type="radio" name="customer_gender" <?php if(isset($customer_info['customer_gender']) && $customer_info['customer_gender'] == 'Male'){ echo 'checked'; } elseif (!isset($customer_info['customer_gender'])) { echo 'checked'; } ?>>
+                          Male
                         </div>
-
-                        <div class="form-group col-md-2 mb-0">
-                            <div class="form-check">
-                              <input class="form-check-input" value="Male" type="radio" checked="" name="member_gender">
-                              Male
-                            </div>
-                          </div>
-
-                          <div class="form-group col-md-2">
-                            <div class="form-check">
-                              <input class="form-check-input" value="Female" type="radio" name="member_gender">
-                              Female
-                            </div>
-                          </div>
-                </div>
-                <div class="card-footer row">
-                  <div class="col-md-6">
-                    <div class="custom-control custom-checkbox ml-2">
-                      <input class="custom-control-input" type="checkbox" name="customer_status" id="customer_status" value="1" checked>
-                      <label for="customer_status" class="custom-control-label">Active</label>
+                      </div>
+                      <div class="form-group col-md-2">
+                        <div class="form-check">
+                          <input class="form-check-input" value="Female" type="radio" name="customer_gender" <?php if(isset($customer_info['customer_gender']) && $customer_info['customer_gender'] == 'Female'){ echo 'checked'; } ?>>
+                          Female
+                        </div>
+                      </div>
                     </div>
                   </div>
-                  <div class="col-md-6 text-right">
+                </div>
+                <div class="card-footer row m-0">
+                  <div class="col-md-2">
+                    <div class="custom-control custom-radio">
+                      <input class="custom-control-input" type="radio" id="customer_status1" name="customer_status" value="1" <?php if(isset($customer_info['customer_status']) && $customer_info['customer_status'] == '1'){ echo 'checked'; } elseif (!isset($customer_info['customer_status'])) { echo 'checked'; } ?>>
+                      <label for="customer_status1" class="custom-control-label">Active</label>
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="custom-control custom-radio">
+                      <input class="custom-control-input" type="radio" id="customer_status0" name="customer_status" value="0" <?php if(isset($customer_info['customer_status']) && $customer_info['customer_status'] == '0'){ echo 'checked'; }  ?>>
+                      <label for="customer_status0" class="custom-control-label">Inactive</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-8 text-right">
                     <?php if(isset($update)){ ?>
                       <button id="btn_update" type="submit" class="btn btn-primary">Update </button>
                     <?php } else{ ?>
@@ -101,12 +104,6 @@
                   </div>
                 </div>
               </form>
-            </div>
-
-          </div>
-          <!--/.col (left) -->
-          <!-- right column -->
-          <!--/.col (right) -->
         </div>
         <!-- /.row -->
       </div><!-- /.container-fluid -->
@@ -117,27 +114,27 @@
 
 <script type="text/javascript">
 // Check Mobile Duplication..
-  var customer_mobile1 = $('#customer_mobile').val();
-  $('#customer_mobile').on('change',function(){
-    var customer_mobile = $(this).val();
+  var customer_mob11 = $('#customer_mob1').val();
+  $('#customer_mob1').on('change',function(){
+    var customer_mob1 = $(this).val();
     $.ajax({
       url:'<?php echo base_url(); ?>User/check_duplication',
       type: 'POST',
-      data: {"column_name":"customer_mobile",
-             "column_val":customer_mobile,
-             "table_name":"user"},
+      data: {"column_name":"customer_mob1",
+             "column_val":customer_mob1,
+             "table_name":"customer"},
       context: this,
       success: function(result){
         if(result > 0){
-          $('#customer_mobile').val(customer_mobile1);
-          toastr.error(customer_mobile+' Mobile No Exist.');
+          $('#customer_mob1').val(customer_mob11);
+          toastr.error(customer_mob1+' Mobile No Exist.');
         }
       }
     });
   });
 
 // Check Email Duplication..
-  var customer_email1 = $('#mobile').val();
+  var customer_email1 = $('#customer_email').val();
   $('#customer_email').on('change',function(){
     var customer_email = $(this).val();
     $.ajax({
@@ -145,7 +142,7 @@
       type: 'POST',
       data: {"column_name":"customer_email",
              "column_val":customer_email,
-             "table_name":"user"},
+             "table_name":"customer"},
       context: this,
       success: function(result){
         if(result > 0){

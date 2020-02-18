@@ -5,7 +5,6 @@ class User extends CI_Controller{
   public function __construct(){
     parent::__construct();
     $this->load->model('User_Model');
-    // $this->load->model('Transaction_Model');
   }
 
   public function logout(){
@@ -221,220 +220,7 @@ class User extends CI_Controller{
     header('location:'.base_url().'User/user_list');
   }
 
-/***********************     Item Account Group Information      ******************************/
 
-  // Item Account Group List...
-  public function item_group_list(){
-    $sol_user_id = $this->session->userdata('sol_user_id');
-    $sol_company_id = $this->session->userdata('sol_company_id');
-    $sol_roll_id = $this->session->userdata('sol_roll_id');
-    if($sol_user_id == '' && $sol_company_id == ''){ header('location:'.base_url().'User'); }
-    $data['item_group_list'] = $this->User_Model->get_list($sol_company_id,'item_group_id','ASC','item_group');
-    $this->load->view('Include/head',$data);
-    $this->load->view('Include/navbar',$data);
-    $this->load->view('User/item_group_list',$data);
-    $this->load->view('Include/footer',$data);
-  }
-
-  // Add Item Account Group...
-  public function item_group(){
-    $sol_user_id = $this->session->userdata('sol_user_id');
-    $sol_company_id = $this->session->userdata('sol_company_id');
-    $sol_roll_id = $this->session->userdata('sol_roll_id');
-    if($sol_user_id == '' && $sol_company_id == ''){ header('location:'.base_url().'User'); }
-    $this->form_validation->set_rules('item_group_name', 'Name', 'trim|required');
-    if ($this->form_validation->run() != FALSE) {
-      $save_data['item_group_name'] = $this->input->post('item_group_name');
-      $save_data['company_id'] = $sol_company_id;
-      $save_data['item_group_addedby'] = $sol_user_id;
-      $this->User_Model->save_data('item_group', $save_data);
-      $this->session->set_flashdata('save_success','success');
-      header('location:'.base_url().'User/item_group_list');
-    }
-    $this->load->view('Include/head');
-    $this->load->view('Include/navbar');
-    $this->load->view('User/item_group');
-    $this->load->view('Include/footer');
-  }
-
-  // Edit Item Account Group...
-  public function edit_item_group($item_group_id){
-    $sol_user_id = $this->session->userdata('sol_user_id');
-    $sol_company_id = $this->session->userdata('sol_company_id');
-    $sol_roll_id = $this->session->userdata('sol_roll_id');
-    if($sol_user_id == '' && $sol_company_id == ''){ header('location:'.base_url().'User'); }
-    $this->form_validation->set_rules('item_group_name', 'Name', 'trim|required');
-    if ($this->form_validation->run() != FALSE) {
-      $update_data['item_group_name'] = $this->input->post('item_group_name');
-      $this->User_Model->update_info('item_group_id', $item_group_id, 'item_group', $update_data);
-      $this->session->set_flashdata('update_success','success');
-      header('location:'.base_url().'User/item_group_list');
-    }
-    $item_group_info = $this->User_Model->get_info_arr('item_group_id',$item_group_id,'item_group');
-    if(!$item_group_info){ header('location:'.base_url().'User/item_group_list'); }
-    $data['update'] = 'update';
-    $data['item_group_name'] = $item_group_info[0]['item_group_name'];
-
-    $this->load->view('Include/head', $data);
-    $this->load->view('Include/navbar', $data);
-    $this->load->view('User/item_group', $data);
-    $this->load->view('Include/footer', $data);
-  }
-
-  // Delete User....
-  public function delete_item_group($item_group_id){
-    $sol_user_id = $this->session->userdata('sol_user_id');
-    $sol_company_id = $this->session->userdata('sol_company_id');
-    $sol_roll_id = $this->session->userdata('sol_roll_id');
-    if($sol_user_id == '' && $sol_company_id == ''){ header('location:'.base_url().'User'); }
-    $this->User_Model->delete_info('item_group_id', $item_group_id, 'item_group');
-    $this->session->set_flashdata('delete_success','success');
-    header('location:'.base_url().'User/item_group_list');
-  }
-
-/*****************************   Item Account Information   *****************************/
-
-  public function item_account_list(){
-    $sol_user_id = $this->session->userdata('sol_user_id');
-    $sol_company_id = $this->session->userdata('sol_company_id');
-    $sol_roll_id = $this->session->userdata('sol_roll_id');
-    if($sol_user_id == '' && $sol_company_id == ''){ header('location:'.base_url().'User'); }
-    $data['item_account_list'] = $this->User_Model->get_list($sol_company_id,'item_account_id','ASC','item_account');
-    $this->load->view('Include/head',$data);
-    $this->load->view('Include/navbar',$data);
-    $this->load->view('User/item_account_list',$data);
-    $this->load->view('Include/footer',$data);
-  }
-
-  public function item_account(){
-    $sol_user_id = $this->session->userdata('sol_user_id');
-    $sol_company_id = $this->session->userdata('sol_company_id');
-    $sol_roll_id = $this->session->userdata('sol_roll_id');
-    if($sol_user_id == '' && $sol_company_id == ''){ header('location:'.base_url().'User'); }
-    $this->form_validation->set_rules('item_account_name', 'Name', 'trim|required');
-    if ($this->form_validation->run() != FALSE) {
-      $save_data['item_group_id'] = $this->input->post('item_group_id');
-      $save_data['item_account_name'] = $this->input->post('item_account_name');
-      $save_data['company_id'] = $sol_company_id;
-      $save_data['item_account_addedby'] = $sol_user_id;
-      $this->User_Model->save_data('item_account', $save_data);
-      $this->session->set_flashdata('save_success','success');
-      header('location:'.base_url().'User/item_account_list');
-    }
-    $data['item_group_list'] = $this->User_Model->get_list($sol_company_id,'item_group_id','ASC','item_group');
-    $this->load->view('Include/head', $data);
-    $this->load->view('Include/navbar', $data);
-    $this->load->view('User/item_account', $data);
-    $this->load->view('Include/footer', $data);
-  }
-
-  // Edit Item Account...
-  public function edit_item_account($item_account_id){
-    $sol_user_id = $this->session->userdata('sol_user_id');
-    $sol_company_id = $this->session->userdata('sol_company_id');
-    $sol_roll_id = $this->session->userdata('sol_roll_id');
-    if($sol_user_id == '' && $sol_company_id == ''){ header('location:'.base_url().'User'); }
-    $this->form_validation->set_rules('item_account_name', 'Name', 'trim|required');
-    if ($this->form_validation->run() != FALSE) {
-      $update_data['item_group_id'] = $this->input->post('item_group_id');
-      $update_data['item_account_name'] = $this->input->post('item_account_name');
-      $this->User_Model->update_info('item_account_id', $item_account_id, 'item_account', $update_data);
-      $this->session->set_flashdata('update_success','success');
-      header('location:'.base_url().'User/item_account_list');
-    }
-    $item_account_info = $this->User_Model->get_info_arr('item_account_id',$item_account_id,'item_account');
-    if(!$item_account_info){ header('location:'.base_url().'User/item_account_list'); }
-    $data['update'] = 'update';
-    $data['item_group_id'] = $item_account_info[0]['item_group_id'];
-    $data['item_account_name'] = $item_account_info[0]['item_account_name'];
-    $data['item_group_list'] = $this->User_Model->get_list($sol_company_id,'item_group_id','ASC','item_group');
-    $this->load->view('Include/head', $data);
-    $this->load->view('Include/navbar', $data);
-    $this->load->view('User/item_account', $data);
-    $this->load->view('Include/footer', $data);
-  }
-
-  // Delete Item Account....
-  public function delete_item_account($item_account_id){
-    $sol_user_id = $this->session->userdata('sol_user_id');
-    $sol_company_id = $this->session->userdata('sol_company_id');
-    $sol_roll_id = $this->session->userdata('sol_roll_id');
-    if($sol_user_id == '' && $sol_company_id == ''){ header('location:'.base_url().'User'); }
-    $this->User_Model->delete_info('item_account_id', $item_account_id, 'item_account');
-    $this->session->set_flashdata('delete_success','success');
-    header('location:'.base_url().'User/item_account_list');
-  }
-
-/*******************************  Tags Information  ****************************/
-
-  // Tags List...
-  public function tags_list(){
-    $sol_user_id = $this->session->userdata('sol_user_id');
-    $sol_company_id = $this->session->userdata('sol_company_id');
-    $sol_roll_id = $this->session->userdata('sol_roll_id');
-    if($sol_user_id == '' && $sol_company_id == ''){ header('location:'.base_url().'User'); }
-    $data['tags_list'] = $this->User_Model->get_list($sol_company_id,'tags_id','ASC','tags');
-    $this->load->view('Include/head',$data);
-    $this->load->view('Include/navbar',$data);
-    $this->load->view('User/tags_list',$data);
-    $this->load->view('Include/footer',$data);
-  }
-
-  //Add Tags
-  public function tags(){
-    $sol_user_id = $this->session->userdata('sol_user_id');
-    $sol_company_id = $this->session->userdata('sol_company_id');
-    $sol_roll_id = $this->session->userdata('sol_roll_id');
-    if($sol_user_id == '' && $sol_company_id == ''){ header('location:'.base_url().'User'); }
-    $this->form_validation->set_rules('tags_name', 'Name', 'trim|required');
-    if ($this->form_validation->run() != FALSE) {
-      $save_data['tags_name'] = $this->input->post('tags_name');
-      $save_data['company_id'] = $sol_company_id;
-      $save_data['tags_addedby'] = $sol_user_id;
-      $this->User_Model->save_data('tags', $save_data);
-      $this->session->set_flashdata('save_success','success');
-      header('location:'.base_url().'User/tags_list');
-    }
-    $this->load->view('Include/head');
-    $this->load->view('Include/navbar');
-    $this->load->view('User/tags');
-    $this->load->view('Include/footer');
-  }
-
-  // Edit Tags...
-  public function edit_tags($tags_id){
-    $sol_user_id = $this->session->userdata('sol_user_id');
-    $sol_company_id = $this->session->userdata('sol_company_id');
-    $sol_roll_id = $this->session->userdata('sol_roll_id');
-    if($sol_user_id == '' && $sol_company_id == ''){ header('location:'.base_url().'User'); }
-    $this->form_validation->set_rules('tags_name', 'Name', 'trim|required');
-    if ($this->form_validation->run() != FALSE) {
-      $update_data['tags_name'] = $this->input->post('tags_name');
-      $this->User_Model->update_info('tags_id', $tags_id, 'tags', $update_data);
-      $this->session->set_flashdata('update_success','success');
-      header('location:'.base_url().'User/tags_list');
-    }
-    $tags_info = $this->User_Model->get_info_arr('tags_id',$tags_id,'tags');
-    if(!$tags_info){ header('location:'.base_url().'User/tags_list'); }
-    $data['update'] = 'update';
-    $data['tags_name'] = $tags_info[0]['tags_name'];
-
-    $this->load->view('Include/head', $data);
-    $this->load->view('Include/navbar', $data);
-    $this->load->view('User/tags', $data);
-    $this->load->view('Include/footer', $data);
-  }
-
-  // Delete Tags....
-  public function delete_tags($tags_id){
-    $sol_user_id = $this->session->userdata('sol_user_id');
-    $sol_company_id = $this->session->userdata('sol_company_id');
-    $sol_roll_id = $this->session->userdata('sol_roll_id');
-    if($sol_user_id == '' && $sol_company_id == ''){ header('location:'.base_url().'User'); }
-    $this->User_Model->delete_info('tags_id', $tags_id, 'tags');
-    $this->session->set_flashdata('delete_success','success');
-    header('location:'.base_url().'User/tags_list');
-  }
 
 /**************************************************************************************/
 /*******                           Manage Forms                               *********/
@@ -442,142 +228,225 @@ class User extends CI_Controller{
 
 /***************************      Customer Information     *****************************/
 
+  // Customer List...
   public function customer_list(){
     $sol_user_id = $this->session->userdata('sol_user_id');
     $sol_company_id = $this->session->userdata('sol_company_id');
     $sol_roll_id = $this->session->userdata('sol_roll_id');
     if($sol_user_id == '' && $sol_company_id == ''){ header('location:'.base_url().'User'); }
-    $data['user_list'] = $this->User_Model->user_list($sol_company_id);
+    $data['customer_list'] = $this->User_Model->get_list($sol_company_id,'customer_id','DESC','customer');
     $this->load->view('Include/head',$data);
     $this->load->view('Include/navbar',$data);
     $this->load->view('User/customer_list',$data);
     $this->load->view('Include/footer',$data);
   }
 
+  // Add Customer...
   public function customer(){
     $sol_user_id = $this->session->userdata('sol_user_id');
     $sol_company_id = $this->session->userdata('sol_company_id');
     $sol_roll_id = $this->session->userdata('sol_roll_id');
     if($sol_user_id == '' && $sol_company_id == ''){ header('location:'.base_url().'User'); }
+    $this->form_validation->set_rules('customer_name','Name','trim|required');
+    if($this->form_validation->run() != FALSE){
+      $save_data = $_POST;
+      $save_data['company_id'] = $sol_company_id;
+      $save_data['customer_addedby'] = $sol_user_id;
+      $save_data['customer_date'] = date('d-m-Y h:i:s A');
+
+      $this->User_Model->save_data('customer', $save_data);
+      $this->session->set_flashdata('save_success','success');
+      header('location:'.base_url().'User/customer_list');
+    }
     $this->load->view('Include/head');
     $this->load->view('Include/navbar');
     $this->load->view('User/customer');
     $this->load->view('Include/footer');
   }
 
-/**********************      Suppliers Information      *****************************/
-
-  // Suppliers List...
-  public function supplier_list(){
+  // Edit Customer...
+  public function edit_customer($customer_id){
     $sol_user_id = $this->session->userdata('sol_user_id');
     $sol_company_id = $this->session->userdata('sol_company_id');
     $sol_roll_id = $this->session->userdata('sol_roll_id');
     if($sol_user_id == '' && $sol_company_id == ''){ header('location:'.base_url().'User'); }
-    $data['supplier_list'] = $this->User_Model->user_list($sol_company_id);
-    $this->load->view('Include/head',$data);
-    $this->load->view('Include/navbar',$data);
-    $this->load->view('User/supplier_list',$data);
-    $this->load->view('Include/footer',$data);
+    $this->form_validation->set_rules('customer_name','Name','trim|required');
+    if($this->form_validation->run() != FALSE){
+      $update_data = $_POST;
+      $update_data['customer_addedby'] = $sol_user_id;
+      $update_data['customer_date'] = date('d-m-Y h:i:s A');
+
+      $this->User_Model->update_info('customer_id', $customer_id, 'customer', $update_data);
+      $this->session->set_flashdata('update_success','success');
+      header('location:'.base_url().'User/customer_list');
+    }
+    $customer_info = $this->User_Model->get_info_arr('customer_id',$customer_id,'customer');
+    if(!$customer_info){ header('location:'.base_url().'Master/customer_list'); }
+    $data['update'] = 'update';
+    $data['customer_info'] = $customer_info[0];
+    $this->load->view('Include/head', $data);
+    $this->load->view('Include/navbar', $data);
+    $this->load->view('User/customer', $data);
+    $this->load->view('Include/footer', $data);
   }
 
-  //Add Supplier
-  public function supplier(){
-    $sol_user_id = $this->session->userdata('sol_user_id');
-    $sol_company_id = $this->session->userdata('sol_company_id');
-    $sol_roll_id = $this->session->userdata('sol_roll_id');
-    if($sol_user_id == '' && $sol_company_id == ''){ header('location:'.base_url().'User'); }
-    $this->load->view('Include/head');
-    $this->load->view('Include/navbar');
-    $this->load->view('User/supplier');
-    $this->load->view('Include/footer');
-  }
-
-/**********************     Item Information      **********************/
-
-  // Items List...
-  public function items_list(){
-    $sol_user_id = $this->session->userdata('sol_user_id');
-    $sol_company_id = $this->session->userdata('sol_company_id');
-    $sol_roll_id = $this->session->userdata('sol_roll_id');
-    if($sol_user_id == '' && $sol_company_id == ''){ header('location:'.base_url().'User'); }
-    $data['items_list'] = $this->User_Model->user_list($sol_company_id);
-    $this->load->view('Include/head',$data);
-    $this->load->view('Include/navbar',$data);
-    $this->load->view('User/items_list',$data);
-    $this->load->view('Include/footer',$data);
-  }
-
-  //Add Item
-  public function items(){
-    $sol_user_id = $this->session->userdata('sol_user_id');
-    $sol_company_id = $this->session->userdata('sol_company_id');
-    $sol_roll_id = $this->session->userdata('sol_roll_id');
-    if($sol_user_id == '' && $sol_company_id == ''){ header('location:'.base_url().'User'); }
-    $this->load->view('Include/head');
-    $this->load->view('Include/navbar');
-    $this->load->view('User/items');
-    $this->load->view('Include/footer');
-  }
-
-/*******************************  Stock Information  ****************************/
-
-  // Stock List...
-  public function stock_list(){
-    $sol_user_id = $this->session->userdata('sol_user_id');
-    $sol_company_id = $this->session->userdata('sol_company_id');
-    $sol_roll_id = $this->session->userdata('sol_roll_id');
-    if($sol_user_id == '' && $sol_company_id == ''){ header('location:'.base_url().'User'); }
-    $data['stock_list'] = $this->User_Model->user_list($sol_company_id);
-    $this->load->view('Include/head',$data);
-    $this->load->view('Include/navbar',$data);
-    $this->load->view('User/stock_list',$data);
-    $this->load->view('Include/footer',$data);
-  }
-
-  //Add Stock
-  public function stock(){
-    $sol_user_id = $this->session->userdata('sol_user_id');
-    $sol_company_id = $this->session->userdata('sol_company_id');
-    $sol_roll_id = $this->session->userdata('sol_roll_id');
-    if($sol_user_id == '' && $sol_company_id == ''){ header('location:'.base_url().'User'); }
-    $this->load->view('Include/head');
-    $this->load->view('Include/navbar');
-    $this->load->view('User/stock');
-    $this->load->view('Include/footer');
+  // Delete Customer....
+  public function delete_customer($customer_id){
+    $eco_user_id = $this->session->userdata('eco_user_id');
+    $eco_company_id = $this->session->userdata('eco_company_id');
+    $eco_roll_id = $this->session->userdata('eco_roll_id');
+    if($eco_user_id == '' && $eco_company_id == ''){ header('location:'.base_url().'User'); }
+    $this->User_Model->delete_info('customer_id', $customer_id, 'customer');
+    $this->session->set_flashdata('delete_success','success');
+    header('location:'.base_url().'User/customer_list');
   }
 
   /***********************     package Information      ******************************/
   // Customer List...
   public function package_list(){
-    $this->load->view('Include/head');
-    $this->load->view('Include/navbar');
-    $this->load->view('User/package_list');
-    $this->load->view('Include/footer');
+    $sol_user_id = $this->session->userdata('sol_user_id');
+    $sol_company_id = $this->session->userdata('sol_company_id');
+    $sol_roll_id = $this->session->userdata('sol_roll_id');
+    if($sol_user_id == '' && $sol_company_id == ''){ header('location:'.base_url().'User'); }
+    $data['package_list'] = $this->User_Model->get_list($sol_company_id,'package_id','DESC','package');
+    // print_r($data['package_list']);
+    $this->load->view('Include/head', $data);
+    $this->load->view('Include/navbar', $data);
+    $this->load->view('User/package_list', $data);
+    $this->load->view('Include/footer', $data);
   }
 
   // Add Customer...
   public function package(){
+    $sol_user_id = $this->session->userdata('sol_user_id');
+    $sol_company_id = $this->session->userdata('sol_company_id');
+    $sol_roll_id = $this->session->userdata('sol_roll_id');
+    if($sol_user_id == '' && $sol_company_id == ''){ header('location:'.base_url().'User'); }
+    $this->form_validation->set_rules('package_name','Name','trim|required');
+    if($this->form_validation->run() != FALSE){
+      $save_data = $_POST;
+      $save_data['company_id'] = $sol_company_id;
+      $save_data['package_addedby'] = $sol_user_id;
+      $save_data['package_date'] = date('d-m-Y h:i:s A');
+
+      $this->User_Model->save_data('package', $save_data);
+      $this->session->set_flashdata('save_success','success');
+      header('location:'.base_url().'User/package_list');
+    }
     $this->load->view('Include/head');
     $this->load->view('Include/navbar');
     $this->load->view('User/package');
     $this->load->view('Include/footer');
   }
 
+  // Edit Package...
+  public function edit_package($package_id){
+    $sol_user_id = $this->session->userdata('sol_user_id');
+    $sol_company_id = $this->session->userdata('sol_company_id');
+    $sol_roll_id = $this->session->userdata('sol_roll_id');
+    if($sol_user_id == '' && $sol_company_id == ''){ header('location:'.base_url().'User'); }
+    $this->form_validation->set_rules('package_name','Name','trim|required');
+    if($this->form_validation->run() != FALSE){
+      $update_data = $_POST;
+      $update_data['package_addedby'] = $sol_user_id;
+      $update_data['package_date'] = date('d-m-Y h:i:s A');
+
+      $this->User_Model->update_info('package_id', $package_id, 'package', $update_data);
+      $this->session->set_flashdata('update_success','success');
+      header('location:'.base_url().'User/package_list');
+    }
+    $package_info = $this->User_Model->get_info_arr('package_id',$package_id,'package');
+    if(!$package_info){ header('location:'.base_url().'Master/package_list'); }
+    $data['update'] = 'update';
+    $data['package_info'] = $package_info[0];
+    $this->load->view('Include/head', $data);
+    $this->load->view('Include/navbar', $data);
+    $this->load->view('User/package', $data);
+    $this->load->view('Include/footer', $data);
+  }
+
+  // Delete Package....
+  public function delete_package($package_id){
+    $eco_user_id = $this->session->userdata('eco_user_id');
+    $eco_company_id = $this->session->userdata('eco_company_id');
+    $eco_roll_id = $this->session->userdata('eco_roll_id');
+    if($eco_user_id == '' && $eco_company_id == ''){ header('location:'.base_url().'User'); }
+    $this->User_Model->delete_info('package_id', $package_id, 'package');
+    $this->session->set_flashdata('delete_success','success');
+    header('location:'.base_url().'User/package_list');
+  }
   /***********************     product Information      ******************************/
   // Customer List...
   public function product_list(){
-    $this->load->view('Include/head');
-    $this->load->view('Include/navbar');
-    $this->load->view('User/product_list');
-    $this->load->view('Include/footer');
+    $sol_user_id = $this->session->userdata('sol_user_id');
+    $sol_company_id = $this->session->userdata('sol_company_id');
+    $sol_roll_id = $this->session->userdata('sol_roll_id');
+    if($sol_user_id == '' && $sol_company_id == ''){ header('location:'.base_url().'User'); }
+    $data['product_list'] = $this->User_Model->get_list($sol_company_id,'product_id','DESC','product');
+    $this->load->view('Include/head', $data);
+    $this->load->view('Include/navbar', $data);
+    $this->load->view('User/product_list', $data);
+    $this->load->view('Include/footer', $data);
   }
 
   // Add Customer...
   public function product(){
+    $sol_user_id = $this->session->userdata('sol_user_id');
+    $sol_company_id = $this->session->userdata('sol_company_id');
+    $sol_roll_id = $this->session->userdata('sol_roll_id');
+    if($sol_user_id == '' && $sol_company_id == ''){ header('location:'.base_url().'User'); }
+    $this->form_validation->set_rules('product_name','Name','trim|required');
+    if($this->form_validation->run() != FALSE){
+      $save_data = $_POST;
+      $save_data['company_id'] = $sol_company_id;
+      $save_data['product_addedby'] = $sol_user_id;
+      $save_data['product_date'] = date('d-m-Y h:i:s A');
+
+      $this->User_Model->save_data('product', $save_data);
+      $this->session->set_flashdata('save_success','success');
+      header('location:'.base_url().'User/product_list');
+    }
     $this->load->view('Include/head');
     $this->load->view('Include/navbar');
     $this->load->view('User/product');
     $this->load->view('Include/footer');
+  }
+
+  // Edit Product...
+  public function edit_product($product_id){
+    $sol_user_id = $this->session->userdata('sol_user_id');
+    $sol_company_id = $this->session->userdata('sol_company_id');
+    $sol_roll_id = $this->session->userdata('sol_roll_id');
+    if($sol_user_id == '' && $sol_company_id == ''){ header('location:'.base_url().'User'); }
+    $this->form_validation->set_rules('product_name','Name','trim|required');
+    if($this->form_validation->run() != FALSE){
+      $update_data = $_POST;
+      $update_data['product_addedby'] = $sol_user_id;
+      $update_data['product_date'] = date('d-m-Y h:i:s A');
+
+      $this->User_Model->update_info('product_id', $product_id, 'product', $update_data);
+      $this->session->set_flashdata('update_success','success');
+      header('location:'.base_url().'User/product_list');
+    }
+    $product_info = $this->User_Model->get_info_arr('product_id',$product_id,'product');
+    if(!$product_info){ header('location:'.base_url().'Master/product_list'); }
+    $data['update'] = 'update';
+    $data['product_info'] = $product_info[0];
+    $this->load->view('Include/head', $data);
+    $this->load->view('Include/navbar', $data);
+    $this->load->view('User/product', $data);
+    $this->load->view('Include/footer', $data);
+  }
+
+  // Delete Product....
+  public function delete_product($product_id){
+    $eco_user_id = $this->session->userdata('eco_user_id');
+    $eco_company_id = $this->session->userdata('eco_company_id');
+    $eco_roll_id = $this->session->userdata('eco_roll_id');
+    if($eco_user_id == '' && $eco_company_id == ''){ header('location:'.base_url().'User'); }
+    $this->User_Model->delete_info('product_id', $product_id, 'product');
+    $this->session->set_flashdata('delete_success','success');
+    header('location:'.base_url().'User/product_list');
   }
 
   /***********************     appointment Information      ******************************/
@@ -591,10 +460,27 @@ class User extends CI_Controller{
 
   // Add Customer...
   public function appointment(){
-    $this->load->view('Include/head');
-    $this->load->view('Include/navbar');
-    $this->load->view('User/appointment');
-    $this->load->view('Include/footer');
+    $sol_user_id = $this->session->userdata('sol_user_id');
+    $sol_company_id = $this->session->userdata('sol_company_id');
+    $sol_roll_id = $this->session->userdata('sol_roll_id');
+    if($sol_user_id == '' && $sol_company_id == ''){ header('location:'.base_url().'User'); }
+    $this->form_validation->set_rules('product_name','Name','trim|required');
+    if($this->form_validation->run() != FALSE){
+      // $save_data = $_POST;
+      // $save_data['company_id'] = $sol_company_id;
+      // $save_data['product_addedby'] = $sol_user_id;
+      // $save_data['product_date'] = date('d-m-Y h:i:s A');
+      //
+      // $this->User_Model->save_data('product', $save_data);
+      // $this->session->set_flashdata('save_success','success');
+      // header('location:'.base_url().'User/product_list');
+    }
+    // $data['appointment_no'] = $this->User_Model->get_count_no($sol_company_id,'appointment_no', 'appointment');
+    $data['customer_list'] = $this->User_Model->get_list_by_id('customer_status',1,'','','customer_name','ASC','customer');
+    $this->load->view('Include/head', $data);
+    $this->load->view('Include/navbar', $data);
+    $this->load->view('User/appointment', $data);
+    $this->load->view('Include/footer', $data);
   }
 
 

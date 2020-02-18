@@ -32,25 +32,33 @@
                     <div class="row">
                       <div class="form-group col-md-12">
                         <label>Package Name</label>
-                        <input type="text" class="form-control form-control-sm" name="customer_company" id="customer_company" value="<?php if(isset($customer_company)){ echo $customer_company; } ?>" placeholder="" required>
+                        <input type="text" class="form-control form-control-sm" name="package_name" id="package_name" value="<?php if(isset($package_info['package_name'])){ echo $package_info['package_name']; } ?>" placeholder="" required>
                       </div>
                       <div class="form-group col-md-12">
                         <label>Package Description</label>
-                      <textarea name="name" class="form-control" rows="3" cols="90"></textarea>
+                      <textarea name="package_desc" id="package_desc" class="form-control" rows="3" cols="90" required><?php if(isset($package_info['package_desc'])){ echo $package_info['package_desc']; } ?></textarea>
                     </div>
                       <div class="form-group col-md-12">
                         <label>Package Price</label>
-                        <input type="text" class="form-control form-control-sm" name="customer_company" id="customer_company" value="<?php if(isset($customer_company)){ echo $customer_company; } ?>" placeholder="" required>
+                        <input type="text" class="form-control form-control-sm" name="package_price" id="package_price" value="<?php if(isset($package_info['package_price'])){ echo $package_info['package_price']; } ?>" placeholder="" required>
                       </div>
                 </div>
-                <div class="card-footer row">
-                  <div class="col-md-6">
-                    <div class="custom-control custom-checkbox ml-2">
-                      <input class="custom-control-input" type="checkbox" name="customer_status" id="customer_status" value="1" checked>
-                      <label for="customer_status" class="custom-control-label">Active</label>
+              </div>
+            </div>
+                <div class="card-footer row m-0">
+                  <div class="col-md-2">
+                    <div class="custom-control custom-radio">
+                      <input class="custom-control-input" type="radio" id="package_status1" name="package_status" value="1" <?php if(isset($package_info['package_status']) && $package_info['package_status'] == '1'){ echo 'checked'; } elseif (!isset($package_info['package_status'])) { echo 'checked'; } ?>>
+                      <label for="package_status1" class="custom-control-label">Active</label>
                     </div>
                   </div>
-                  <div class="col-md-6 text-right">
+                  <div class="col-md-2">
+                    <div class="custom-control custom-radio">
+                      <input class="custom-control-input" type="radio" id="package_status0" name="package_status" value="0" <?php if(isset($package_info['package_status']) && $package_info['package_status'] == '0'){ echo 'checked'; }  ?>>
+                      <label for="package_status0" class="custom-control-label">Inactive</label>
+                    </div>
+                  </div>
+                  <div class="col-md-8 text-right">
                     <?php if(isset($update)){ ?>
                       <button id="btn_update" type="submit" class="btn btn-primary">Update </button>
                     <?php } else{ ?>
@@ -60,12 +68,7 @@
                   </div>
                 </div>
               </form>
-            </div>
 
-          </div>
-          <!--/.col (left) -->
-          <!-- right column -->
-          <!--/.col (right) -->
         </div>
         <!-- /.row -->
       </div><!-- /.container-fluid -->
@@ -75,41 +78,21 @@
   <script src="<?php echo base_url(); ?>assets/plugins/toastr/toastr.min.js"></script>
 
 <script type="text/javascript">
-// Check Mobile Duplication..
-  var customer_mobile1 = $('#customer_mobile').val();
-  $('#customer_mobile').on('change',function(){
-    var customer_mobile = $(this).val();
+// Check Package Name Duplication..
+  var package_name1 = $('#package_name').val();
+  $('#package_name').on('change',function(){
+    var package_name = $(this).val();
     $.ajax({
       url:'<?php echo base_url(); ?>User/check_duplication',
       type: 'POST',
-      data: {"column_name":"customer_mobile",
-             "column_val":customer_mobile,
-             "table_name":"user"},
+      data: {"column_name":"package_name",
+             "column_val":package_name,
+             "table_name":"package"},
       context: this,
       success: function(result){
         if(result > 0){
-          $('#customer_mobile').val(customer_mobile1);
-          toastr.error(customer_mobile+' Mobile No Exist.');
-        }
-      }
-    });
-  });
-
-// Check Email Duplication..
-  var customer_email1 = $('#mobile').val();
-  $('#customer_email').on('change',function(){
-    var customer_email = $(this).val();
-    $.ajax({
-      url:'<?php echo base_url(); ?>User/check_duplication',
-      type: 'POST',
-      data: {"column_name":"customer_email",
-             "column_val":customer_email,
-             "table_name":"user"},
-      context: this,
-      success: function(result){
-        if(result > 0){
-          $('#customer_email').val(customer_email1);
-          toastr.error(customer_email+' Email Id Exist.');
+          $('#package_name').val(package_name1);
+          toastr.error(package_name+' Exist.');
         }
       }
     });
