@@ -42,11 +42,23 @@ class User extends CI_Controller{
     $sol_user_id = $this->session->userdata('sol_user_id');
     $sol_company_id = $this->session->userdata('sol_company_id');
     $sol_roll_id = $this->session->userdata('sol_roll_id');
+    $today = date('d-m-Y');
     if($sol_user_id == '' && $sol_company_id == ''){ header('location:'.base_url().'User'); }
-    $this->load->view('Include/head');
-    $this->load->view('Include/navbar');
-    $this->load->view('User/dashboard');
-    $this->load->view('Include/footer');
+    $data['user_cnt'] = $this->User_Model->get_count('user_id',$sol_company_id,'is_admin','0','','','user');
+    $data['customer_cnt'] = $this->User_Model->get_count('customer_id',$sol_company_id,'','','','','customer');
+    $data['package_cnt'] = $this->User_Model->get_count('package_id',$sol_company_id,'','','','','package');
+    $data['product_cnt'] = $this->User_Model->get_count('product_id',$sol_company_id,'','','','','product');
+    $data['tot_appo_cnt'] = $this->User_Model->get_count('appointment_id',$sol_company_id,'','','','','appointment');
+    $data['today_appo_cnt'] = $this->User_Model->get_count('appointment_id',$sol_company_id,'appointment_date',$today,'appointment_status','0','appointment');
+    $data['complete_appo_cnt'] = $this->User_Model->get_count('appointment_id',$sol_company_id,'appointment_status','1','','','appointment');
+    $data['cancel_appo_cnt'] = $this->User_Model->get_count('appointment_id',$sol_company_id,'appointment_status','2','','','appointment');
+
+    $data['user_list'] = $this->User_Model->get_list_by_id_com($sol_company_id,'user_status',1,'is_admin','0','user_name','ASC','user');
+    
+    $this->load->view('Include/head', $data);
+    $this->load->view('Include/navbar', $data);
+    $this->load->view('User/dashboard', $data);
+    $this->load->view('Include/footer', $data);
   }
 
 /**************************      Company Information      ********************************/
@@ -450,48 +462,138 @@ class User extends CI_Controller{
   }
 
   /***********************     appointment Information      ******************************/
-  // Customer List...
+  // Appointment List...
   public function appointment_list(){
-    $this->load->view('Include/head');
-    $this->load->view('Include/navbar');
-    $this->load->view('User/appointment_list');
-    $this->load->view('Include/footer');
+    $sol_user_id = $this->session->userdata('sol_user_id');
+    $sol_company_id = $this->session->userdata('sol_company_id');
+    $sol_roll_id = $this->session->userdata('sol_roll_id');
+    if($sol_user_id == '' && $sol_company_id == ''){ header('location:'.base_url().'User'); }
+    $data['appointment_list'] = $this->User_Model->appointment_list($sol_company_id);
+    // print_r($data['appointment_list']);
+    $this->load->view('Include/head', $data);
+    $this->load->view('Include/navbar', $data);
+    $this->load->view('User/appointment_list', $data);
+    $this->load->view('Include/footer', $data);
   }
 
-  // Add Customer...
+  // Add Appointment...
   public function appointment(){
     $sol_user_id = $this->session->userdata('sol_user_id');
     $sol_company_id = $this->session->userdata('sol_company_id');
     $sol_roll_id = $this->session->userdata('sol_roll_id');
     if($sol_user_id == '' && $sol_company_id == ''){ header('location:'.base_url().'User'); }
-    $this->form_validation->set_rules('product_name','Name','trim|required');
+    $this->form_validation->set_rules('appointment_no','Number','trim|required');
     if($this->form_validation->run() != FALSE){
-      // $save_data = $_POST;
-      // $save_data['company_id'] = $sol_company_id;
-      // $save_data['product_addedby'] = $sol_user_id;
-      // $save_data['product_date'] = date('d-m-Y h:i:s A');
-      //
-      // $this->User_Model->save_data('product', $save_data);
-      // $this->session->set_flashdata('save_success','success');
-      // header('location:'.base_url().'User/product_list');
+
+      $save_data = $_POST;
+      $save_data['company_id'] = $sol_company_id;
+      $save_data['appointment_addedby'] = $sol_user_id;
+      $save_data['appointment_date2'] = date('d-m-Y h:i:s A');
+      unset($save_data['input']);
+      $appointment_id = $this->User_Model->save_data('appointment', $save_data);
+
+      foreach($_POST['input'] as $details_data){
+        $details_data['appointment_id'] = $appointment_id;
+        $details_data['appo_details_date'] = date('d-m-Y h:i:s A');
+        $details_data['appo_details_addedby'] = $sol_user_id;
+        $this->db->insert('appo_details', $details_data);
+      }
+
+      $this->session->set_flashdata('save_success','success');
+      header('location:'.base_url().'User/appointment_list');
     }
-    // $data['appointment_no'] = $this->User_Model->get_count_no($sol_company_id,'appointment_no', 'appointment');
+    $data['appointment_no'] = $this->User_Model->get_count_no($sol_company_id,'appointment_no', 'appointment');
     $data['customer_list'] = $this->User_Model->get_list_by_id('customer_status',1,'','','customer_name','ASC','customer');
+    $data['user_list'] = $this->User_Model->get_list_by_id_com($sol_company_id,'user_status',1,'is_admin','0','user_name','ASC','user');
+    $data['product_list'] = $this->User_Model->get_list_by_id_com($sol_company_id,'product_status',1,'','','product_name','ASC','product');
     $this->load->view('Include/head', $data);
     $this->load->view('Include/navbar', $data);
     $this->load->view('User/appointment', $data);
     $this->load->view('Include/footer', $data);
   }
 
+  // Edit/Update Appointment...
+  public function edit_appointment($appointment_id){
+    $sol_user_id = $this->session->userdata('sol_user_id');
+    $sol_company_id = $this->session->userdata('sol_company_id');
+    $sol_roll_id = $this->session->userdata('sol_roll_id');
+    if($sol_user_id == '' && $sol_company_id == ''){ header('location:'.base_url().'User'); }
+    $this->form_validation->set_rules('appointment_no','Number','trim|required');
+    if($this->form_validation->run() != FALSE){
 
+      $update_data = $_POST;
+      $update_data['appointment_addedby'] = $sol_user_id;
+      $update_data['appointment_date2'] = date('d-m-Y h:i:s A');
+      unset($update_data['input']);
+      $this->User_Model->update_info('appointment_id', $appointment_id, 'appointment', $update_data);
+
+      foreach($_POST['input'] as $details_data){
+      $details_data['appo_details_date'] = date('d-m-Y h:i:s A');
+      $details_data['appo_details_addedby'] = $sol_user_id;
+        if(isset($details_data['appo_details_id'])){
+          $appo_details_id = $details_data['appo_details_id'];
+          if(!isset($details_data['product_id'])){
+            $this->User_Model->delete_info('appo_details_id', $appo_details_id, 'appo_details');
+          }else{
+              $this->User_Model->update_info('appo_details_id', $appo_details_id, 'appo_details', $details_data);
+          }
+        }
+        else{
+          $details_data['appointment_id'] = $appointment_id;
+          $this->db->insert('appo_details', $details_data);
+        }
+      }
+
+      $this->session->set_flashdata('save_success','success');
+      header('location:'.base_url().'User/appointment_list');
+    }
+    $data['appointment_no'] = $this->User_Model->get_count_no($sol_company_id,'appointment_no', 'appointment');
+    $data['customer_list'] = $this->User_Model->get_list_by_id('customer_status',1,'','','customer_name','ASC','customer');
+    $data['user_list'] = $this->User_Model->get_list_by_id_com($sol_company_id,'user_status',1,'is_admin','0','user_name','ASC','user');
+    $data['product_list'] = $this->User_Model->get_list_by_id_com($sol_company_id,'product_status',1,'','','product_name','ASC','product');
+
+    $appointment_info = $this->User_Model->get_info_arr('appointment_id',$appointment_id,'appointment');
+    if(!$appointment_info){ header('location:'.base_url().'User/appointment_list'); }
+    $data['update'] = 'update';
+    $data['appointment_info'] = $appointment_info[0];
+
+    $data['appo_details_list'] = $this->User_Model->get_list_by_id('appointment_id',$appointment_id,'','','appo_details_id','ASC','appo_details');
+    $this->load->view('Include/head', $data);
+    $this->load->view('Include/navbar', $data);
+    $this->load->view('User/appointment', $data);
+    $this->load->view('Include/footer', $data);
+  }
+
+  // Delete Appointment....
+  public function delete_appointment($appointment_id){
+    $eco_user_id = $this->session->userdata('eco_user_id');
+    $eco_company_id = $this->session->userdata('eco_company_id');
+    $eco_roll_id = $this->session->userdata('eco_roll_id');
+    if($eco_user_id == '' && $eco_company_id == ''){ header('location:'.base_url().'User'); }
+    $this->User_Model->delete_info('appointment_id', $appointment_id, 'appointment');
+    $this->User_Model->delete_info('appointment_id', $appointment_id, 'appo_details');
+    $this->session->set_flashdata('delete_success','success');
+    header('location:'.base_url().'User/appointment_list');
+  }
 
   /***********************     Manage Appointment Information      ******************************/
   // Customer List...
   public function manage_appointment(){
-    $this->load->view('Include/head');
-    $this->load->view('Include/navbar');
-    $this->load->view('User/manage_appointment');
-    $this->load->view('Include/footer');
+    $sol_user_id = $this->session->userdata('sol_user_id');
+    $sol_company_id = $this->session->userdata('sol_company_id');
+    $sol_roll_id = $this->session->userdata('sol_roll_id');
+    if($sol_user_id == '' && $sol_company_id == ''){ header('location:'.base_url().'User'); }
+    $data['appointment_list'] = $this->User_Model->appointment_list($sol_company_id);
+    $this->load->view('Include/head', $data);
+    $this->load->view('Include/navbar', $data);
+    $this->load->view('User/manage_appointment', $data);
+    $this->load->view('Include/footer', $data);
+  }
+
+  public function update_appo_status(){
+    $update_data = $_POST;
+    $this->User_Model->update_info('appointment_id', $update_data['appointment_id'], 'appointment', $update_data);
+    header('location:'.base_url().'User/manage_appointment');
   }
 
 /*******************************  Check Duplication  ****************************/
@@ -502,6 +604,15 @@ class User extends CI_Controller{
     $company_id = '';
     $cnt = $this->User_Model->check_dupli_num($company_id,$column_val,$column_name,$table_name);
     echo $cnt;
+  }
+
+/*******************************  Get Product Rate By Id  ****************************/
+  public function get_product_rate(){
+    $product_id = $this->input->post('product_id');
+    $result = $this->User_Model->get_info_arr_fields('product_rate','product_id', $product_id, 'product');
+    if($result){ $product_rate = $result[0]['product_rate']; }
+    else{ $product_rate = 0; }
+    echo $product_rate;
   }
 
 

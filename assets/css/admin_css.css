@@ -1,3 +1,28 @@
+/* Sidebar */
+.nav-link-head {
+    display: block;
+    padding: .5rem .2rem !important;
+}
+.nav-sidebar .nav-treeview {
+  margin-left: 10px;
+}
+.nav-sidebar .nav-treeview i {
+  font-size: 12px !important;
+}
+
+.font_12{
+  font-size: 12px !important;
+}
+.font_14{
+  font-size: 14px !important;
+}
+.font_15{
+  font-size: 15px !important;
+}
+.font_16{
+  font-size: 16px !important;
+}
+
 /* Form */
 .input_form label{
   /* font-weight: 400 !important; */
@@ -81,6 +106,9 @@ input[type=number] {
 }
 
 /* Table width */
+.wt_25{
+  width: 50px !important;
+}
 .wt_50{
   width: 50px !important;
 }
@@ -108,6 +136,7 @@ input[type=number] {
 #example1 td{
   padding:7px 10px !important;
 }
+
 
 
 

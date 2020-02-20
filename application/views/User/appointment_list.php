@@ -36,38 +36,45 @@
                   <th class="wt_50">#</th>
                   <th>Customer Name</th>
                   <th>Appointment Date </th>
+                  <th>Appointment Time </th>
                   <th>Status</th>
-                  <th class="wt_50">Action</th>
+                  <th class="wt_75">Action</th>
                 </tr>
                 </thead>
                 <tbody>
-                  <!-- <?php $i = 0;
-                  foreach ($user_list as $list) {
+                  <?php $i = 0;
+                  foreach ($appointment_list as $list) {
                     $i++; ?>
                   <tr>
                     <td><?php echo $i; ?></td>
-                    <td><?php echo $list->user_name ?></td>
-                    <td><?php echo $list->user_city ?></td>
-                    <td><?php echo $list->user_mobile ?></td>
-                    <td><?php echo $list->user_email ?></td>
+                    <td><?php echo $list->customer_name ?></td>
+                    <td><?php echo $list->appointment_date ?></td>
+                    <td><?php echo $list->appointment_time ?></td>
+                    <td><?php if($list->appointment_status == 0){
+                      echo "<small class='badge badge-warning p-2'>Pending</small>";
+                    } elseif($list->appointment_status == 1){
+                      echo "<small class='badge badge-success p-2'>Completed</small>";
+                    }  else{
+                      echo "<small class='badge badge-danger p-2'>Cancel</small>";
+                    } ?></td>
                     <td>
-                      <a href="<?php echo base_url(); ?>User/edit_user/<?php echo $list->user_id; ?>"> <i class="fa fa-edit"></i> </a>
-                      <a href="<?php echo base_url(); ?>User/delete_user/<?php echo $list->user_id; ?>" onclick="return confirm('Delete this User');" class="ml-2"> <i class="fa fa-trash text-danger"></i> </a>
+                      <a href="<?php echo base_url(); ?>User/edit_appointment/<?php echo $list->appointment_id; ?>"> <i class="fa fa-edit"></i> </a>
+                      <a href="<?php echo base_url(); ?>User/delete_appointment/<?php echo $list->appointment_id; ?>" onclick="return confirm('Delete this Appointment');" class="ml-2"> <i class="fa fa-trash text-danger"></i> </a>
                     </td>
                   <?php } ?>
-                  </tr> -->
-
+                  </tr>
                 </tbody>
               </table>
             </div>
-            <!-- /.card-body -->
           </div>
-          <!-- /.card -->
           </div>
         </div>
-        <!-- /.row -->
       </div><!-- /.container-fluid -->
     </section>
+
+
+
+
   </div>
   <script src="<?php echo base_url(); ?>assets/plugins/sweetalert2/sweetalert2.min.js"></script>
   <script src="<?php echo base_url(); ?>assets/plugins/toastr/toastr.min.js"></script>

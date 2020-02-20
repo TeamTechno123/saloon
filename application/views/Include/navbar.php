@@ -49,7 +49,7 @@
       <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
         <!-- Add icons to the links using the .nav-icon class with font-awesome or any other icon font library -->
         <li class="nav-item">
-          <a href="<?php echo base_url(); ?>User/dashboard" class="nav-link">
+          <a href="<?php echo base_url(); ?>User/dashboard" class="nav-link nav-link-head">
             <i class="nav-icon fas fa-th"></i>
             <p>
               Dashboard
@@ -57,7 +57,7 @@
           </a>
         </li>
         <li class="nav-item has-treeview">
-          <a href="#" class="nav-link head">
+          <a href="#" class="nav-link head nav-link-head">
             <i class="nav-icon fas fa-chart-pie"></i>
             <p>
               Master
@@ -68,22 +68,20 @@
             <li class="nav-item">
               <a href="<?php echo base_url(); ?>User/company_information_list" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
-                <p>
-                  Company Information
-                </p>
+                <p class="font_15">Company Information</p>
               </a>
             </li>
             <li class="nav-item">
               <a href="<?php echo base_url(); ?>User/user_list" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
-                <p>User</p>
+                <p class="font_15">User</p>
               </a>
             </li>
           </ul>
         </li>
 
         <li class="nav-item has-treeview">
-          <a href="#" class="nav-link head">
+          <a href="#" class="nav-link head nav-link-head">
             <i class="nav-icon fas fa-chart-pie"></i>
             <p>
               Manage
@@ -94,39 +92,39 @@
             <li class="nav-item">
               <a href="<?php echo base_url(); ?>User/customer_list" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
-                <p>Customers</p>
+                <p class="font_15">Customers</p>
               </a>
             </li>
             <li class="nav-item">
               <a href="<?php echo base_url(); ?>User/package_list" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
-                <p>Package</p>
+                <p class="font_15">Package</p>
               </a>
             </li>
             <li class="nav-item">
               <a href="<?php echo base_url(); ?>User/product_list" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
-                <p>Product</p>
+                <p class="font_15">Product</p>
               </a>
             </li>
             <li class="nav-item">
               <a href="<?php echo base_url(); ?>User/appointment_list" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
-                <p>Appointment</p>
-              </a>
-            </li>
-
-            <li class="nav-item">
-              <a href="<?php echo base_url(); ?>User/manage_appointment" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Manage Appointment</p>
+                <p class="font_15">Appointment</p>
               </a>
             </li>
           </ul>
         </li>
 
-        <li class="nav-item has-treeview">
-          <a href="#" class="nav-link head">
+        <li class="nav-item">
+          <a href="<?php echo base_url(); ?>User/manage_appointment" class="nav-link nav-link-head">
+            <i class="nav-icon fas fa-edit"></i>
+            <p>Manage Appointment</p>
+          </a>
+        </li>
+
+        <!-- <li class="nav-item has-treeview">
+          <a href="#" class="nav-link head nav-link-head">
             <i class="nav-icon fas fa-chart-pie"></i>
             <p>
               Transaction
@@ -137,7 +135,7 @@
             <li class="nav-item">
               <a href="#" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
-                <p>
+                <p class="font_15">
                   Demo Link
                 </p>
               </a>
@@ -146,7 +144,7 @@
         </li>
 
         <li class="nav-item has-treeview">
-          <a href="#" class="nav-link head">
+          <a href="#" class="nav-link head nav-link-head">
             <i class="nav-icon fas fa-chart-pie"></i>
             <p>
               Report
@@ -157,11 +155,11 @@
             <li class="nav-item">
               <a href="#" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
-                <p>Demo Link</p>
+                <p class="font_15">Demo Link</p>
               </a>
             </li>
           </ul>
-        </li>
+        </li> -->
       </nav>
     <!-- /.sidebar-menu -->
     </div>

@@ -84,6 +84,22 @@
   $('#date5').datetimepicker({
     format: 'DD-MM-Y'
   })
+  //Timepicker
+  $('#timepicker1').datetimepicker({
+    format: 'LT'
+  })
+  $('#timepicker2').datetimepicker({
+    format: 'LT'
+  })
+  $('#timepicker3').datetimepicker({
+    format: 'LT'
+  })
+  $('#timepicker4').datetimepicker({
+    format: 'LT'
+  })
+  $('#timepicker5').datetimepicker({
+    format: 'LT'
+  })
 </script>
 <script>
   $(function () {
@@ -115,7 +131,7 @@
   $(document).ready(function() {
     var url = window.location.href;
     var activePage = url;
-    $('.nav-link').removeClass('active');
+    $('navbar.nav-link').removeClass('active');
     $('.has-treeview').removeClass('menu-open');
     $('.nav-treeview').css("display", "none");
     // alert(activePage);

@@ -38,6 +38,26 @@ class User_Model extends CI_Model{
     return $result;
   }
 
+  public function get_list_by_id_com($company_id,$col_name1,$col_val1,$col_name2,$col_val2,$order_col,$order,$tbl_name){
+    $this->db->select('*');
+    if($company_id != ''){
+      $this->db->where('company_id',$company_id);
+    }
+    if($col_name1 != ''){
+      $this->db->where($col_name1,$col_val1);
+    }
+    if($col_name2 != ''){
+      $this->db->where($col_name2,$col_val2);
+    }
+    if($order_col != ''){
+      $this->db->order_by($order_col, $order);
+    }
+    $this->db->from($tbl_name);
+    $query = $this->db->get();
+    $result = $query->result();
+    return $result;
+  }
+
   public function get_list_by_id($col_name1,$col_val1,$col_name2,$col_val2,$order_col,$order,$tbl_name){
     $this->db->select('*');
     if($col_name1 != ''){
@@ -160,10 +180,25 @@ class User_Model extends CI_Model{
     } else{
       $old_num = 0;
     }
-    $value = $old_num + 1;               
+    $value = $old_num + 1;
     return $value;
   }
 
+/**************************************************************************************************************/
+
+public function appointment_list($company_id){
+  $this->db->select('appointment.*,customer.*,user.user_name');
+  if($company_id != ''){
+    $this->db->where('appointment.company_id', $company_id);
+  }
+  $this->db->order_by('appointment.appointment_id','DESC');
+  $this->db->from('appointment');
+  $this->db->join('customer','customer.customer_id = appointment.customer_id','LEFT');
+  $this->db->join('user','user.user_id = appointment.user_id','LEFT');
+  $query = $this->db->get();
+  $result = $query->result();
+  return $result;
+}
   // function check_otp($otp, $user_id){
   //   $query = $this->db->select('*')
   //       ->where('user_otp', $otp)
